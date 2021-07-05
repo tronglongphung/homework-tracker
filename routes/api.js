@@ -1,7 +1,13 @@
 const router = require("express").Router();
-const { Workout } = require("../models/Workout");
+const { Workout } = require("../models");
 
-router.get("/workouts", (req, res) => {
+router.get("/workouts", async (req, res) => {
+  const workouts = await Workout.find({});
+  console.log(workouts);
+  res.json(workouts);
+});
+
+router.get("/workouts/range", async (req, res) => {
   Workout.find({}, (error, data) => {
     if (error) {
       res.send(error);
@@ -11,46 +17,23 @@ router.get("/workouts", (req, res) => {
   });
 });
 
-router.get("/workouts/range", (req, res) => {
-  Workout.insert(req.body, (error, data) => {
-    if (error) {
-      res.send(error);
-    } else {
-      res.send(data);
-    }
-  });
+router.post("/workouts", async (req, res) => {
+  const workout = await new Workout();
+  await workout.save();
+  res.json(workout);
 });
 
-router.post("/workouts", (req, res) => {
-  Workout.find({}, (error, data) => {
-    if (error) {
-      res.send(error);
-    } else {
-      res.json(data);
-    }
-  });
-});
-
-router.put("/workouts/:id", (req, res) => {
-  Workout.update(
+router.put("/workouts/:id", async (req, res) => {
+  const workout = await Workout.findByIdAndUpdate(
+    req.params.id,
     {
-      _id: mongojs.ObjectId(req.params.id),
-    },
-    {
-      $set: {
-        title: req.body.title,
-        note: req.body.note,
-        modified: Date.now(),
+      $push: {
+        exercises: req.body,
       },
     },
-    (error, data) => {
-      if (error) {
-        res.send(error);
-      } else {
-        res.send(data);
-      }
-    }
+    { new: true, runValidators: true }
   );
+  res.json(workout);
 });
 
 module.exports = router;
