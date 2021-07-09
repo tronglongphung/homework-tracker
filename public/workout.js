@@ -7,7 +7,7 @@ async function initWorkout() {
       .setAttribute("href", `/exercise?id=${lastWorkout._id}`);
 
     const workoutSummary = {
-      date: formatDate(lastWorkout.day || lastWorkout.date),
+      day: formatDate(lastWorkout.day || lastWorkout.date),
       totalDuration: lastWorkout.totalDuration,
       numExercises: lastWorkout.exercises.length,
       ...tallyExercises(lastWorkout.exercises),
@@ -50,7 +50,7 @@ function renderWorkoutSummary(summary) {
   const container = document.querySelector(".workout-stats");
 
   const workoutKeyMap = {
-    date: "Date",
+    day: "Date",
     totalDuration: "Total Workout Duration",
     numExercises: "Exercises Performed",
     totalWeight: "Total Weight Lifted",
