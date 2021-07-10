@@ -2,7 +2,7 @@ const router = require("express").Router();
 const path = require("path");
 
 router.get("/", (req, res) => {
-  res.sendFile("../public/index.html");
+  res.sendFile(path.resolve("../public/index.html"));
 });
 
 router.get("/exercise", (req, res) => {
