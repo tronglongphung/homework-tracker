@@ -7,7 +7,7 @@ async function initWorkout() {
       .setAttribute("href", `/exercise?id=${lastWorkout._id}`);
 
     const workoutSummary = {
-      day: formatDate(lastWorkout.day || lastWorkout.date),
+      date: formatDate(lastWorkout.day || lastWorkout.date),
       totalDuration: lastWorkout.totalDuration,
       numExercises: lastWorkout.exercises.length,
       ...tallyExercises(lastWorkout.exercises),
